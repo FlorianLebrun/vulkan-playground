@@ -1,0 +1,21 @@
+set(target Tutorial)
+
+append_group_sources(files FILTER "*.cpp|*.h" DIRECTORIES
+  "/"
+)
+
+find_package(VULKAN REQUIRED)
+
+include_directories(${Vulkan_INCLUDE_DIRS})
+include_directories(${GLFW_SOURCE_DIR}/include)
+include_directories(${glm_SOURCE_DIR}/include)
+include_directories(${tinyobjloader_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/deps/stb)
+
+add_executable(${target} WIN32 ${files})
+set_target_properties(${target} PROPERTIES FOLDER "Main")
+target_link_libraries(${target} glm glfw tinyobjloader ${Vulkan_LIBRARIES})
+target_link_options(${target} PRIVATE /SUBSYSTEM:CONSOLE)
+
+set_target_properties(${target} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
